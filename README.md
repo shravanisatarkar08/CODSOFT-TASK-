@@ -31,8 +31,3 @@ Confusion Matrix:
 ## Author
 Shravani Satarkar  
 CodSoft Machine Learning Internship (November 2025)
-
-
-
-
-

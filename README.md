@@ -100,6 +100,20 @@ bash
 Copy code
 pip install pandas scikit-learn
 
+rf = RandomForestClassifier(n_estimators=200, random_state=42)
+rf_pipeline = Pipeline(steps=[('preprocessor', preprocessor), ('classifier', rf)])
+rf_pipeline.fit(X_train, y_train)
+
+# Extract feature names
+encoded_features = rf_pipeline.named_steps['preprocessor'].transformers_[1][1].get_feature_names_out(cat_features)
+all_features = np.concatenate([num_features, encoded_features])
+
+# Feature importance
+importances = rf_pipeline.named_steps['classifier'].feature_importances_
+feat_imp = pd.Series(importances, index=all_features).sort_values(ascending=False).head(10)
+
+feat_imp.plot(kind='barh', title="Top 10 Important Features")
+
 
 ## Author
 Shravani Satarkar  

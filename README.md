@@ -1,120 +1,83 @@
-# CODSOFT-TASK-
-# Task 1 - Credit Card Fraud Detection
 
-## Overview
-Developed a machine learning model to detect fraudulent credit card transactions using numerical transaction data.
-
-## Dataset
-- Source: [Kaggle Credit Card Fraud Dataset](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
-- Contains 284,807 transactions with 492 fraudulent cases.
-
-## Technologies Used
-- Python, Pandas, NumPy, Scikit-learn
-- Algorithms: Random Forest Classifier
-- Feature Scaling: StandardScaler
-
-## Steps Performed
-1. Data Loading and Exploration  
-2. Train-Test Split  
-3. Data Standardization  
-4. Model Training using RandomForestClassifier  
-5. Model Evaluation using Accuracy and Confusion Matrix  
-
-## Results
-- Achieved ~99.9% Accuracy on Test Data  
-- Detected fraudulent transactions effectively
-- Accuracy: 0.9991
-Confusion Matrix:
-[[56861 5]
-[ 52 44]]
-
-# Task 2 - Spam SMS Detection using TF-IDF + Naive Bayes
-
-## 📌 Overview
-This project builds a **machine learning model** to classify SMS messages as **Spam** or **Not Spam (Ham)**.  
-It uses **TF-IDF vectorization** to convert text messages into numerical features and applies the **Multinomial Naive Bayes** algorithm for classification.
+> **Note:** All notebook code uses relative dataset paths (`datasets/fraud.csv`, etc.) so it runs locally or in Colab.
 
 ---
 
-## 🧾 Dataset
-- **Source:** [Kaggle SMS Spam Collection Dataset](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset)
-- The dataset contains:
-  - `v1`: Label (`ham` or `spam`)
-  - `v2`: The message text
+## Task 1: Fraud Detection  
 
-Example:
+**Objective:** Detect fraudulent transactions using Machine Learning.  
 
-| v1   | v2                              |
-|------|----------------------------------|
-| ham  | I'm going to be home soon.      |
-| spam | Congratulations! You won a prize! |
+**Dataset:** `datasets/fraud.csv` (features + `Fraud` target column)  
+
+**Approach:**  
+- Load and clean dataset  
+- Encode categorical variables if present  
+- Split dataset into train and test sets  
+- Train a classifier (Random Forest or Logistic Regression)  
+- Evaluate using **accuracy**, **F1-score**, **confusion matrix**  
+
+**Key Output:**  
+- Accuracy: *Example: 94%*  
+- Confusion Matrix: `[[TN FP], [FN TP]]`  
 
 ---
 
-## ⚙️ Model Workflow
+## Task 2: Spam Detection  
 
-```python
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+**Objective:** Classify SMS messages as **Spam** or **Ham**.  
 
-# Load dataset
-df = pd.read_csv("spam.csv", encoding='latin-1')[['v1', 'v2']]
-df.columns = ['label', 'message']
+**Dataset:** `datasets/spam.csv` (columns: `v1` = label, `v2` = message)  
 
-# Convert labels to binary
-df['label'] = df['label'].map({'ham': 0, 'spam': 1})
+**Approach:**  
+- Load and clean dataset  
+- Encode labels (`ham`=0, `spam`=1)  
+- Split dataset into train/test sets  
+- Convert text to **TF-IDF features**  
+- Train **Multinomial Naive Bayes**  
+- Evaluate using **accuracy**, **classification report**, and **confusion matrix**  
+- Predict on sample messages  
 
-# Split data
-X_train, X_test, y_train, y_test = train_test_split(df['message'], df['label'], test_size=0.2, random_state=42)
+**Key Output:**  
+- Accuracy: 96.68%  
+- Confusion Matrix: `[[965 0], [37 113]]`  
+- Sample Prediction: `[1] → Spam`  
 
-# Text feature extraction
-vectorizer = TfidfVectorizer(stop_words='english')
-X_train_tfidf = vectorizer.fit_transform(X_train)
-X_test_tfidf = vectorizer.transform(X_test)
+---
 
-# Train model
-model = MultinomialNB()
-model.fit(X_train_tfidf, y_train)
+## Task 3: Churn Prediction  
 
-# Predict
-y_pred = model.predict(X_test_tfidf)
+**Objective:** Predict whether a customer will **churn** using customer data.  
 
-# Evaluate
-print("✅ Accuracy:", accuracy_score(y_test, y_pred))
-print("\n📊 Classification Report:\n", classification_report(y_test, y_pred))
-print("\n🧮 Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-📈 Results
-Model: Multinomial Naive Bayes
+**Dataset:** `datasets/churn.csv` (features include `customerID`, `gender`, `tenure`, target: `Churn`)  
 
-Feature Extraction: TF-IDF Vectorizer
+**Approach:**  
+- Load and clean dataset  
+- Encode categorical variables  
+- Split dataset into train/test sets  
+- Scale numerical features  
+- Train **Random Forest Classifier**  
+- Evaluate using **accuracy**, **classification report**, and **confusion matrix**  
 
-Test Accuracy: ~97–99% (depending on data split)
+**Key Output:**  
+- Accuracy: 86.65%  
+- Confusion Matrix Example: `[[900 50], [100 65]]`  
 
-📚 Dependencies
-Make sure you have the following Python libraries installed:
+---
 
-bash
-Copy code
-pip install pandas scikit-learn
+## Notes  
 
-rf = RandomForestClassifier(n_estimators=200, random_state=42)
-rf_pipeline = Pipeline(steps=[('preprocessor', preprocessor), ('classifier', rf)])
-rf_pipeline.fit(X_train, y_train)
+- All tasks are implemented in **Python 3** in **Google Colab**.  
+- Datasets are included in the `datasets/` folder.  
+- Code uses **relative paths** for datasets to ensure smooth execution.  
+- Notebooks contain **full code, outputs, and visualizations**.  
 
-# Extract feature names
-encoded_features = rf_pipeline.named_steps['preprocessor'].transformers_[1][1].get_feature_names_out(cat_features)
-all_features = np.concatenate([num_features, encoded_features])
+---
 
-# Feature importance
-importances = rf_pipeline.named_steps['classifier'].feature_importances_
-feat_imp = pd.Series(importances, index=all_features).sort_values(ascending=False).head(10)
+## Author  
 
-feat_imp.plot(kind='barh', title="Top 10 Important Features")
+**Shravani Satarkar**  
+🌐 GitHub: [https://github.com/<shravanisatarkar08>](https://github.com/<your-username>)  
+📧 Email: [shravani.satarkar08@gmail.com]  
 
-
-## Author
-Shravani Satarkar  
-CodSoft Machine Learning Internship (November 2025)
+---
+ember 2025)

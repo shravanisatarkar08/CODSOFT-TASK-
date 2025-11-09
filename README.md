@@ -1,83 +1,70 @@
+# CODSOFT TASK
 
-> **Note:** All notebook code uses relative dataset paths (`datasets/fraud.csv`, etc.) so it runs locally or in Colab.
-
----
-
-## Task 1: Fraud Detection  
-
-**Objective:** Detect fraudulent transactions using Machine Learning.  
-
-**Dataset:** `datasets/fraud.csv` (features + `Fraud` target column)  
-
-**Approach:**  
-- Load and clean dataset  
-- Encode categorical variables if present  
-- Split dataset into train and test sets  
-- Train a classifier (Random Forest or Logistic Regression)  
-- Evaluate using **accuracy**, **F1-score**, **confusion matrix**  
-
-**Key Output:**  
-- Accuracy: *Example: 94%*  
-- Confusion Matrix: `[[TN FP], [FN TP]]`  
+> Note: Notebooks use relative dataset paths (e.g. `datasets/fraud.csv`) so they run locally or in Colab.
 
 ---
 
-## Task 2: Spam Detection  
+## Task 1 — Fraud Detection
 
-**Objective:** Classify SMS messages as **Spam** or **Ham**.  
+Objective: Detect fraudulent transactions.
 
-**Dataset:** `datasets/spam.csv` (columns: `v1` = label, `v2` = message)  
+Dataset: `datasets/fraud.csv` (contains features + `Fraud` target).
 
-**Approach:**  
-- Load and clean dataset  
-- Encode labels (`ham`=0, `spam`=1)  
-- Split dataset into train/test sets  
-- Convert text to **TF-IDF features**  
-- Train **Multinomial Naive Bayes**  
-- Evaluate using **accuracy**, **classification report**, and **confusion matrix**  
-- Predict on sample messages  
+Approach: data cleaning, categorical encoding, stratified train/test split, model training and evaluation. Preferred models: Logistic Regression (regularized) for interpretability and Random Forest for non-linear patterns.
 
-**Key Output:**  
-- Accuracy: 96.68%  
-- Confusion Matrix: `[[965 0], [37 113]]`  
-- Sample Prediction: `[1] → Spam`  
+Algorithms (brief):
+- Logistic Regression: linear model optimizing cross-entropy; fast, interpretable; scale numeric features and use class_weight or resampling for imbalance.
+- Random Forest: ensemble of decision trees (bagging + feature randomness); captures non-linear interactions and provides feature importances.
+
+Metrics: confusion matrix, precision, recall, F1, ROC-AUC / PR-AUC. Prioritize recall for the fraud class.
 
 ---
 
-## Task 3: Churn Prediction  
+## Task 2 — Spam Detection
 
-**Objective:** Predict whether a customer will **churn** using customer data.  
+Objective: Classify SMS as spam or ham.
 
-**Dataset:** `datasets/churn.csv` (features include `customerID`, `gender`, `tenure`, target: `Churn`)  
+Dataset: `datasets/spam.csv` (`v1` = label, `v2` = message).
 
-**Approach:**  
-- Load and clean dataset  
-- Encode categorical variables  
-- Split dataset into train/test sets  
-- Scale numerical features  
-- Train **Random Forest Classifier**  
-- Evaluate using **accuracy**, **classification report**, and **confusion matrix**  
+Approach: text cleaning, TF–IDF vectorization, train/test split, train Multinomial Naive Bayes, evaluate with classification metrics.
 
-**Key Output:**  
-- Accuracy: 86.65%  
-- Confusion Matrix Example: `[[900 50], [100 65]]`  
+Algorithm (brief):
+- TF–IDF: converts text to weighted term vectors (controls vocabulary with n-grams, min_df, max_features).
+- Multinomial Naive Bayes: fast probabilistic model for token counts; uses Laplace smoothing.
+
+Metrics: accuracy, precision, recall, F1, confusion matrix.
 
 ---
 
-## Notes  
+## Task 3 — Churn Prediction
 
-- All tasks are implemented in **Python 3** in **Google Colab**.  
-- Datasets are included in the `datasets/` folder.  
-- Code uses **relative paths** for datasets to ensure smooth execution.  
-- Notebooks contain **full code, outputs, and visualizations**.  
+Objective: Predict customer churn.
+
+Dataset: `datasets/churn.csv` (e.g., `customerID`, `gender`, `tenure`, `Churn`).
+
+Approach: drop identifiers, encode categoricals, impute missing values, scale if required, train Random Forest or comparable classifier. Use stratified validation and business-aware metrics.
+
+Algorithm (brief):
+- Random Forest: default robust choice for mixed data; tune n_estimators, max_depth, and class weights.
+
+Metrics and notes: precision/recall for churn class, ROC-AUC/PR-AUC, feature importance (permutation/SHAP for interpretation).
+
+---
+
+## General notes
+- Use stratified k-fold for tuning.
+- Address imbalance with class weights, resampling (SMOTE) or threshold tuning.
+- Calibrate probabilities when used for business decisions.
+- Notebooks include runnable code and example outputs.
+
+## How to run
+- Open notebooks in Colab or run locally (Python 3).
+- Ensure required packages (scikit-learn, pandas, numpy, imbalanced-learn).
+- Keep datasets in the `datasets/` folder.
 
 ---
 
-## Author  
+## Author
+**Shravani Satarkar** — https://github.com/shravanisatarkar08 — shravani.satarkar08@gmail.com
 
-**Shravani Satarkar**  
-🌐 GitHub: [https://github.com/<shravanisatarkar08>](https://github.com/<your-username>)  
-📧 Email: [shravani.satarkar08@gmail.com]  
-
----
-ember 2025)
+(Updated: 2025)
